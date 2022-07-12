@@ -3,14 +3,20 @@ import requests, tldextract, string, re
 from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 from multiprocessing.dummy import Pool as ThreadPool
+import argparse
 
-depth = 1
-target = "<target url>"
+parser = argparse.ArgumentParser(description='Spiders a URL for unique words, ignoring common ones.')
+parser.add_argument('url', help='target url')
+parser.add_argument('depth', type=int, help='levels of links to follow')
+args = parser.parse_args()
+
+depth = args.depth
+target = args.url
 
 def getLinks(url):
         allLinks = []
         if url not in linksDone:
-            print('getlinks({})'.format(url))
+            print('getting links from {}'.format(url))
             try:
                 req = requests.get(url, headers=headers, verify=False, timeout=5)
                 if req.status_code==200:
@@ -80,6 +86,7 @@ linkDict = {}
 linkDict2 = linkDict
 linksDone = []
 
+print('getting links...')
 links = getLinks(target)
 linkDict[target] = links
 
@@ -99,11 +106,11 @@ for run in range(depth):
         for link in v:
             uniqueLinks.add(link)
 
-
+print('done getting links. found {} links'.format(len(uniqueLinks)))
 wordsFinal = set()
 
 
-
+print('starting word harvesters...')
 results = pool.map(getWords, uniqueLinks)
 for page in results:
     for word in page:
@@ -123,7 +130,7 @@ for link in uniqueLinks:
 '''
 
 wordsFinal = list(wordsFinal)
-
+print('done gathering words.  total words: {}'.format(len(wordsFinal)))
 with open('output/{}_wordsOut.txt'.format(target.translate(str.maketrans('', '', string.punctuation))), 'w+', encoding='utf8') as f:
     for word in wordsFinal:
         f.write(word+'\n')
