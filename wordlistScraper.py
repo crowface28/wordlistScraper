@@ -4,12 +4,8 @@ from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 from multiprocessing.dummy import Pool as ThreadPool
 
-
-
 depth = 1
 target = "<url target>"
-
-
 
 def getLinks(url):
         allLinks = []
