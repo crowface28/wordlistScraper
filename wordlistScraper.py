@@ -3,7 +3,13 @@ import requests, tldextract, string, re
 from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 from multiprocessing.dummy import Pool as ThreadPool
-pool = ThreadPool(20)
+
+
+
+depth = 1
+target = "<url target>"
+
+
 
 def getLinks(url):
         allLinks = []
@@ -61,14 +67,12 @@ def getWords(url):
         print(str(e))
         return []
 
+pool = ThreadPool(20)
 
 with open('commonWords.txt') as f:
     commonWords = []
     for line in f:
         commonWords.append(f.readline().strip())
-    
-depth = 1
-target = "<url target>"
 
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'}
 
