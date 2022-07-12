@@ -2,7 +2,8 @@
  Scrapes a website for all non-common words
 
 ```
-python wordlistScraper.py https://wtfman.com 1
+> python wordlistScraper.py https://wtfman.com 1
+
 getting links...
 getting links from https://wtfman.com
 getting links from http://www.wtfman.com/quotes.htm
