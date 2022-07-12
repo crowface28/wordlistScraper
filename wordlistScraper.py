@@ -5,7 +5,7 @@ requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 from multiprocessing.dummy import Pool as ThreadPool
 
 depth = 1
-target = "<url target>"
+target = "<target url>"
 
 def getLinks(url):
         allLinks = []
@@ -124,6 +124,6 @@ for link in uniqueLinks:
 
 wordsFinal = list(wordsFinal)
 
-with open('output/{}_wordsOut.txt'.format(target.translate(str.maketrans('', '', string.punctuation))), 'w', encoding='utf8') as f:
+with open('output/{}_wordsOut.txt'.format(target.translate(str.maketrans('', '', string.punctuation))), 'w+', encoding='utf8') as f:
     for word in wordsFinal:
         f.write(word+'\n')
